@@ -13,24 +13,18 @@
       <p class="tag">PRUEBA AISLADA · NO PRODUCCIÓN</p>
       <h1 id="titulo">TURNIO RAIL</h1>
       <p class="lead">Acceso por código temporal enviado desde <b>acceso@turniorail.es</b>.</p>
-
-      <div id="mensaje" class="mensaje" role="status" aria-live="polite">
-        Introduce el correo autorizado para recibir un código.
-      </div>
-
+      <div id="mensaje" class="mensaje" role="status" aria-live="polite">Introduce el correo autorizado para recibir un código.</div>
       <form id="form-email">
         <label for="email">Correo autorizado</label>
         <input id="email" type="email" autocomplete="email" required placeholder="nombre@correo.es">
         <button id="enviar" type="submit">Recibir código</button>
       </form>
-
       <form id="form-otp" hidden>
         <label for="otp">Código de seis cifras</label>
         <input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="000000">
         <button id="validar" type="submit">Entrar en pruebas</button>
         <button id="cambiar-correo" class="secondary" type="button">Usar otro correo</button>
       </form>
-
       <section id="sesion" hidden>
         <h2>Acceso correcto</h2>
         <p id="sesion-texto"></p>
@@ -41,7 +35,7 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./supabase-auth-config.js"></script>
-  <script src="./app.js"></script>
+  <script src="./supabase-auth-config.js?v=perfil1"></script>
+  <script src="./app.js?v=perfil1"></script>
 </body>
 </html>
