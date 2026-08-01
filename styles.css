@@ -1,0 +1,16 @@
+:root { color-scheme: light; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; color: #14213a; background: linear-gradient(145deg, #eff5ff, #f9fbff); }
+.page { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.card { width: min(100%, 430px); padding: 32px; border-radius: 24px; background: #fff; box-shadow: 0 18px 55px #1b4b9940; }
+.tag { margin: 0 0 8px; color: #2d7ff9; font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+h1 { margin: 0; font-size: 32px; } h2 { margin: 0 0 8px; }
+.lead, .note { color: #526077; line-height: 1.5; } .note { font-size: 14px; }
+.mensaje { margin: 22px 0; padding: 12px 14px; border-radius: 12px; background: #edf5ff; color: #195ba9; font-size: 14px; }
+.mensaje.error { color: #a52828; background: #fff0f0; } .mensaje.ok { color: #15703a; background: #ebf9ef; }
+form { display: grid; gap: 10px; } label { font-weight: 700; font-size: 14px; }
+input, button { min-height: 48px; border-radius: 12px; font: inherit; }
+input { border: 1px solid #b7c2d6; padding: 0 14px; font-size: 16px; }
+button { border: 0; padding: 0 16px; background: #2d7ff9; color: #fff; font-weight: 750; cursor: pointer; }
+button.secondary { margin-top: 2px; color: #2d7ff9; background: #eff5ff; } button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 480px) { .page { padding: 16px; } .card { padding: 24px; border-radius: 20px; } }
