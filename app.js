@@ -24,7 +24,12 @@
     if (/expired|invalid|token/i.test(text)) return 'El código no es válido o ha caducado. Solicita uno nuevo.';
     return text;
   }
-  function mostrarSesion(user, profile) {
+  function textoPermiso(canWrite) {
+    return canWrite
+      ? 'Permiso operativo: puede realizar acciones de edición.'
+      : 'Permiso operativo: solo consulta; no puede realizar acciones de edición.';
+  }
+  function mostrarSesion(user, profile, canWrite) {
     formEmail.hidden = true;
     formOtp.hidden = true;
     sessionBox.hidden = false;
@@ -32,7 +37,8 @@
       'Sesión de prueba iniciada para ' + (user.email || 'usuario autorizado') + '.';
     document.getElementById('perfil-texto').textContent =
       'Perfil TURNIO: ' + (profile.display_name || user.email) + ' · Rol: ' + profile.role_code + '.';
-    setMessage('Código validado y perfil activo confirmado.', 'ok');
+    document.getElementById('permisos-texto').textContent = textoPermiso(canWrite);
+    setMessage('Código validado, perfil activo y permiso confirmado.', 'ok');
   }
   async function validarPerfil(user) {
     var response = await client.rpc('current_turnio_profile');
@@ -42,7 +48,13 @@
       await client.auth.signOut();
       throw new Error('No existe un perfil TURNIO activo para este correo.');
     }
-    mostrarSesion(user, profile);
+    var roleResponse = await client
+      .from('app_roles')
+      .select('code, can_write')
+      .eq('code', profile.role_code)
+      .single();
+    if (roleResponse.error) throw roleResponse.error;
+    mostrarSesion(user, profile, Boolean(roleResponse.data.can_write));
   }
 
   if (!client) {
