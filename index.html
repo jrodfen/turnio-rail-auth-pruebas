@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2d7ff9">
+  <title>TURNIO RAIL · Acceso Supabase de pruebas</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-labelledby="titulo">
+      <p class="tag">PRUEBA AISLADA · NO PRODUCCIÓN</p>
+      <h1 id="titulo">TURNIO RAIL</h1>
+      <p class="lead">Acceso por código temporal enviado desde <b>acceso@turniorail.es</b>.</p>
+
+      <div id="mensaje" class="mensaje" role="status" aria-live="polite">
+        Introduce el correo autorizado para recibir un código.
+      </div>
+
+      <form id="form-email">
+        <label for="email">Correo autorizado</label>
+        <input id="email" type="email" autocomplete="email" required placeholder="nombre@correo.es">
+        <button id="enviar" type="submit">Recibir código</button>
+      </form>
+
+      <form id="form-otp" hidden>
+        <label for="otp">Código de seis cifras</label>
+        <input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="000000">
+        <button id="validar" type="submit">Entrar en pruebas</button>
+        <button id="cambiar-correo" class="secondary" type="button">Usar otro correo</button>
+      </form>
+
+      <section id="sesion" hidden>
+        <h2>Acceso correcto</h2>
+        <p id="sesion-texto"></p>
+        <p class="note">Esta página solo valida Supabase y Brevo. No abre ni altera la aplicación TURNIO actual.</p>
+        <button id="cerrar" class="secondary" type="button">Cerrar sesión de prueba</button>
+      </section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-auth-config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
