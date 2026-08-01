@@ -24,12 +24,25 @@
     if (/expired|invalid|token/i.test(text)) return 'El código no es válido o ha caducado. Solicita uno nuevo.';
     return text;
   }
-  function mostrarSesion(user) {
+  function mostrarSesion(user, profile) {
     formEmail.hidden = true;
     formOtp.hidden = true;
     sessionBox.hidden = false;
-    document.getElementById('sesion-texto').textContent = 'Sesión de prueba iniciada para ' + (user.email || 'usuario autorizado') + '.';
-    setMessage('Código validado correctamente.', 'ok');
+    document.getElementById('sesion-texto').textContent =
+      'Sesión de prueba iniciada para ' + (user.email || 'usuario autorizado') + '.';
+    document.getElementById('perfil-texto').textContent =
+      'Perfil TURNIO: ' + (profile.display_name || user.email) + ' · Rol: ' + profile.role_code + '.';
+    setMessage('Código validado y perfil activo confirmado.', 'ok');
+  }
+  async function validarPerfil(user) {
+    var response = await client.rpc('current_turnio_profile');
+    if (response.error) throw response.error;
+    var profile = Array.isArray(response.data) ? response.data[0] : response.data;
+    if (!profile) {
+      await client.auth.signOut();
+      throw new Error('No existe un perfil TURNIO activo para este correo.');
+    }
+    mostrarSesion(user, profile);
   }
 
   if (!client) {
@@ -37,8 +50,14 @@
     return;
   }
 
-  client.auth.getUser().then(function (result) {
-    if (result.data && result.data.user) mostrarSesion(result.data.user);
+  client.auth.getUser().then(async function (result) {
+    if (result.data && result.data.user) {
+      try {
+        await validarPerfil(result.data.user);
+      } catch (error) {
+        setMessage(normalizarError(error), 'error');
+      }
+    }
   });
 
   formEmail.addEventListener('submit', async function (event) {
@@ -73,7 +92,7 @@
         type: 'email'
       });
       if (result.error) throw result.error;
-      mostrarSesion(result.data.user);
+      await validarPerfil(result.data.user);
     } catch (error) {
       setMessage(normalizarError(error), 'error');
     } finally {
